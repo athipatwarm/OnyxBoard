@@ -27,6 +27,11 @@ mongoose.connect(process.env.DATABASE_URL)
 
 const indexRouter = require('./routes/index')
 const userRouter = require('./routes/users')
+const catagoryRouter = require('./routes/catagories')
+const topicRouter = require('./routes/topics')
+const postRouter = require('./routes/posts')
+
+
 
 app.use('/', indexRouter)
 function logger(req, res, next){
@@ -40,5 +45,22 @@ function logger(req, res, next){
     next()
 }
 
+app.use('/catagory', catagoryRouter)
+function logger(req, res, next){
+    console.log(req.originalUrl)
+    next()
+}
+
+app.use('/topic', topicRouter)
+function logger(req, res, next){
+    console.log(req.originalUrl)
+    next()
+}
+
+app.use('/post', postRouter)
+function logger(req, res, next){
+    console.log(req.originalUrl)
+    next()
+}
 
 app.listen(process.env.PORT || 3000)
