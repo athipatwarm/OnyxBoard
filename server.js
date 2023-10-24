@@ -30,6 +30,7 @@ const userRouter = require('./routes/users')
 const catagoryRouter = require('./routes/catagories')
 const topicRouter = require('./routes/topics')
 const postRouter = require('./routes/posts')
+const commentRouter = require('./routes/comments')
 
 
 
@@ -58,6 +59,12 @@ function logger(req, res, next){
 }
 
 app.use('/post', postRouter)
+function logger(req, res, next){
+    console.log(req.originalUrl)
+    next()
+}
+
+app.use('/comment', commentRouter)
 function logger(req, res, next){
     console.log(req.originalUrl)
     next()

@@ -4,7 +4,16 @@ const mongoose = require('mongoose')
 const User = require('../models/User')
 
 router.get('/',(req, res, ) => {
-    res.send('hi')
+    res.render('users/index')
+})
+
+router
+    .route('/new')
+    .get((req, res, ) => {
+    res.render('users/new', {user: new User()})
+    .post((req, res) =>{
+        res.send('create')
+    })
 })
 
 router
