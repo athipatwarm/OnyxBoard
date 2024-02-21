@@ -1,10 +1,9 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onyxboard</title>
-</head>
-<body>
-    User Profile
-</body>
-</html>
+<h2>Search Users</h2>
+<form action="/users" method="GET">
+    <label>name</label>
+    <input type="text" name="username" value="<%= searchOption.username %>">
+    <button type="submit">search</button>
+</form>
+<% users.forEach(user => { %>
+    <div><%= user.username %></div>
+<%})%>
