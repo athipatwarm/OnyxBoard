@@ -3,6 +3,7 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 const express = require('express') 
+const bodyParser = require('body-parser')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
 
@@ -13,6 +14,7 @@ app.use(expressLayouts)
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(bodyParser.urlencoded({limit: '10mb', extended:false}))
 
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
@@ -40,7 +42,7 @@ function logger(req, res, next){
     next()
 }
 
-app.use('/user', userRouter)
+app.use('/users', userRouter)
 function logger(req, res, next){
     console.log(req.originalUrl)
     next()
