@@ -3,21 +3,24 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/User')
 
-router.get('/', async (req, res, ) => {
+router
+    .route('/')
+    .get(async (req, res, ) => {
     let searchOption = {}
-    if (req.query.username != null && req.query.username !== ''){
-        searchOption.username = new RegExp(req.query.username,'i')
-    }
+        if (req.query.username != null && req.query.username !== ''){
+            searchOption.username = new RegExp(req.query.username,'i')
+        }
 
-    try {
-        const users = await User.find(searchOption)
-        res.render('users/index', {
-            users: users, 
-            searchOption: req.query})
-    } catch {
-        res.redirect('/')
-    }
-})
+        try {
+            const users = await User.find(searchOption)
+            res.render('users/index', {
+                users: users, 
+                searchOption: req.query})
+        } catch {
+            res.redirect('/')
+        }
+    })
+    
 
 router
     .route('/new')
