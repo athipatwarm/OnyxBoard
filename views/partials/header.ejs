@@ -1,9 +1,17 @@
 <header>
     <nav>
         <h1><a href="/">Onyxboard</a></h1>
+        <% if(isAuth) { %>
+        <a href="/create-post"> Post </a>
+        <% } %>
+        <a href="/users">Profile</a>
+        <a href="/users/new">Register</a>
+        <a href="/users/login">login</a>
         
-            <a href="/users">Profile</a>
-            <a href="/users/new">Register</a>
+        <% if(isAuth) { %>
+        <a href="/logout"> logout </a>
+        <% } %>
+
     </nav>
     <br>
 </header>

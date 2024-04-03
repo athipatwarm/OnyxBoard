@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-const Post = require('../models/Post')
+const Post = require('../db/models/postModel')
 
 router.get('/',(req, res, ) => {
     res.send('hi')
