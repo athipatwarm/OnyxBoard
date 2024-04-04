@@ -28,8 +28,8 @@ router
     })
     .post(async (req,res)=>{
         try {
-            
-        } catch {
+
+        } catch(error) {
 
         }
     })

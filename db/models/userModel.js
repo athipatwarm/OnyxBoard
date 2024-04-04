@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true},
+    role: { 
+        type: String,
+        default: 'user' },
     created_at: { type: Date, default: Date.now},
     updated_at: { type: Date, default: Date.now},
     tokens: String
