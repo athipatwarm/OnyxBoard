@@ -39,7 +39,7 @@ const mongoose = require('mongoose')
 
 const indexRouter = require('./routes/index')
 const userRoutes = require('./routes/userRoutes')
-const postRouter = require('./routes/posts')
+const postRoutes = require('./routes/postRoutes')
 // const catagoryRouter = require('./routes/catagories')
 // const topicRouter = require('./routes/topics')
 // const commentRouter = require('./routes/comments')
@@ -64,7 +64,7 @@ function logger(req, res, next){
     next()
 }
 
-app.use('/post', postRouter)
+app.use('/post', postRoutes)
 function logger(req, res, next){
     console.log(req.originalUrl)
     next()
