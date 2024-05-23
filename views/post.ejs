@@ -1,0 +1,27 @@
+<%- include('./includes/header.ejs') %>
+<%- include('./includes/navbar.ejs') %>
+
+Post Something <a href="posts/create-post">create a post</a><br>
+
+<h1>All Posts</h1>
+<h2>Search Posts</h2>
+<form action="/posts" method="GET">
+    <label>Title</label>
+    <input type="text" name="title" value="<%= searchOption.title %>">
+    <button type="submit">search</button>
+</form>
+    <ul>
+        
+        <% posts.forEach(post => { %>
+            <li>
+                <h2>Title: <%= post.title %></h2>
+                <p>Description: <%= post.description %></p>
+                <p>Author: <%= post.author %></p>
+                <h6>date published: <%= post.created_at %></p>
+                <form action="/posts/<%= post._id %>" method="POST">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <input type="submit" value="Delete">
+                </form>
+            </li>
+        <% }); %>
+    </ul>

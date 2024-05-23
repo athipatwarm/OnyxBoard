@@ -40,17 +40,28 @@ userSchema.methods.generateAuthTokens = async function(){
     return token
 }
 
-userSchema.statics.loginUser = async (username,password)=>{
-    const user = User.findOne({username})
-    if(!user){
-        throw new Error("Wrong username or password")
+userSchema.statics.loginUser = async (username, password) => {
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            // User not found
+            return null;
+        }
+
+        const checkPassword = await bcrypt.compare(String(password), String(user.password));
+        if (!checkPassword) {
+            // Incorrect password
+            return null;
+        }
+
+        // Passwords match! Return the user object
+        return user;
+    } catch (error) {
+        // Handle any other errors (e.g., database connection issues)
+        console.error('Error during login:', error.message);
+        return null;
     }
-    const checkPassword = await bcrypt.compare(String(password),String(user.password))
-    if(!checkPassword){
-        throw new Error("Wrong username or password")
-    }
-    return user
-}
+};
 
 const User = mongoose.model('User',userSchema)
 module.exports = User

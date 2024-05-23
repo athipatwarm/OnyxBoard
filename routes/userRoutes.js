@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../db/models/userModel')
+const { route } = require('.')
 
 router
     .route('/')
@@ -23,48 +24,25 @@ router
     
 router
     .route('/login')
-    .get(async (req, res)=>{
-        res.render('login', {error:""})
+    .get(async (req, res) => {
+        res.render('login');
     })
-    .post(async(req, res)=>{
-        try{
-            const user = User.loginUser(req.body.username, req.body.password)
-            const token = await user.generateAuthTokens()
-            res.cookie('token', token, {httpOnly:true})
-            res.redirect('/')
-        } catch (error){
-            res.render('login', {error:"wrong username or password"})
+    .post(async (req, res) => {
+        try {
+            const user = await User.loginUser(req.body.username, req.body.password);
+            if (!user) {
+                res.render('login', { error: 'Invalid credentials' });
+                return;
+            }
+
+            const token = await user.generateAuthTokens();
+            res.cookie('token', token, { httpOnly: true });
+            res.redirect('/');
+        } catch (error) {
+            console.error('Error during login:', error.message);
+            res.status(500).send('Server error');
         }
-    })
-
-// router
-//     .route('/register')
-//     .get((req, res, ) => {
-//     res.render('signup', {user: new User()})
-//     })
-
-//     .post(async(req, res) =>{
-//         try {
-//             const user = await req.body
-//             const userExists = User.find({username: user.username})
-//             if(userExists.length === 0){
-//                 const account = new User({
-//                     name: user.username,
-//                     password: user.password
-//                 })
-//                 await account.generateAuthTokens()
-//                 await account.save()
-                
-//                 res.status(200)
-//                 res.send({ account: account._id})
-//             } else {
-//                 res.status(500)
-//             }
-//             res.status(200).json(user)
-//         } catch(error) {
-//             res.status(500).json({message: error.message})
-//         }  
-//     })    
+    });
 
 router
     .route('/register')
@@ -88,7 +66,7 @@ router
     .route('/logout')
     .get(async (req, res)=>{
         res.clearCookie('token')
-        res.redirect('/index')
+        res.redirect('/')
     })
 
 
@@ -102,6 +80,29 @@ router
             res.status(500).json({message: error.message})
         }  
     })
+
+    router
+    .route('/profile')
+    .get(async (req, res) => {
+        try {
+            if (req.user) {
+                const currentUser = await User.findById(req.user);
+                if (currentUser) {
+                    res.render('users/profile', {
+                        user: currentUser,
+                    });
+                } else {
+                    // Handle case when user is not found
+                    res.status(404).send('User not found');
+                }
+            } else {
+                res.redirect('/');
+            }
+        } catch (error) {
+            console.error('Error fetching user profile:', error);
+            res.status(500).send('Internal server error');
+        }
+    });
 
 router
     .route('/:id')

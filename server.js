@@ -7,8 +7,8 @@ const bodyParser = require('body-parser')
 const app = express()
 // const expressLayouts = require('express-ejs-layouts')
 const cookieParser = require('cookie-parser')
-const csrf = require('csurf')
-const csrfProtection = csrf({cookie: true})
+// const csrf = require('csurf')
+// const csrfProtection = csrf({cookie: true})
 const path = require('path')
 const db = require('./db/mongodb')
 db()
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(bodyParser.urlencoded({limit: '10mb', extended:false}))
 app.use(cookieParser())
-app.use(csrfProtection)
+// app.use(csrfProtection)
 
 const mongoose = require('mongoose')
 // mongoose.Promise = global.Promise
@@ -48,7 +48,7 @@ const isAuth = require('./middleware/isAuth')
 app.use(cookieParser())
 app.use(isAuth.authenticateToken, (req,res,next) =>{
     res.locals.isAuth = req.user
-    res.locals.csrfToken = req.csrfToken()
+    // res.locals.csrfToken = req.csrfToken()
     next()
 })
 
@@ -64,7 +64,7 @@ function logger(req, res, next){
     next()
 }
 
-app.use('/post', postRoutes)
+app.use('/posts', postRoutes)
 function logger(req, res, next){
     console.log(req.originalUrl)
     next()
